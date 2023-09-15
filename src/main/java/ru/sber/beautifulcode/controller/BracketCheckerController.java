@@ -1,9 +1,10 @@
 package ru.sber.beautifulcode.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ru.sber.beautifulcode.service.Validation;
 import ru.sber.beautifulcode.model.Response;
 import ru.sber.beautifulcode.model.Text;
+import ru.sber.beautifulcode.service.BracketCheckerService;
 
 /**
  * Класс BracketCheckerController представляет контроллер для проверки расстановки скобок в тексте.
@@ -14,9 +15,10 @@ import ru.sber.beautifulcode.model.Text;
 public class BracketCheckerController {
 
   /** Сервис для проверки расстановки скобок. */
-  private Validation<String> checkerService;
+  private final BracketCheckerService checkerService;
 
-  public BracketCheckerController(Validation<String> checkerService) {
+  @Autowired
+  public BracketCheckerController(BracketCheckerService checkerService) {
     this.checkerService = checkerService;
   }
 

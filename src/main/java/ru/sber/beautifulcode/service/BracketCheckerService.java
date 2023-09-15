@@ -41,7 +41,7 @@ public class BracketCheckerService implements Validation<String> {
           if (stack.isEmpty() || stack.peek().equals('(')) {
             return false;
           }
-          Character symbol = stack.pop();
+          char symbol = stack.pop();
           while (symbol != '(' && stack.isEmpty()) {
             symbol = stack.pop();
           }
@@ -53,9 +53,6 @@ public class BracketCheckerService implements Validation<String> {
           break;
       }
     }
-    if (openBracketCount != closeBracketCount) {
-      return false;
-    }
-    return true;
+    return openBracketCount == closeBracketCount;
   }
 }

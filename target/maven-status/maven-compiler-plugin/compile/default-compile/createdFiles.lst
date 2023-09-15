@@ -1,0 +1,6 @@
+ru/sber/beautifulcode/BeautifulCodeApplication.class
+ru/sber/beautifulcode/service/Validation.class
+ru/sber/beautifulcode/model/Response.class
+ru/sber/beautifulcode/model/Text.class
+ru/sber/beautifulcode/controller/BracketCheckerController.class
+ru/sber/beautifulcode/service/BracketCheckerService.class

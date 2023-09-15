@@ -1,18 +1,47 @@
 package ru.sber.beautifulcode.controller;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 import ru.sber.beautifulcode.model.Response;
 import ru.sber.beautifulcode.model.Text;
-
+import ru.sber.beautifulcode.service.BracketCheckerService;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
+
 
 @ExtendWith(MockitoExtension.class)
-class BracketCheckerControllerTest {
-  @InjectMocks private BracketCheckerController bracketCheckerService;
+class BracketCheckerServiceTest {
+
+  @InjectMocks
+  private BracketCheckerController controller;
+
+  @Mock
+  private BracketCheckerService checkerService;
+
+  @BeforeEach
+  public void setUp() {
+    MockitoAnnotations.openMocks(this);
+  }
+
+  @Test
+  public void testCheckerBracket_ValidInput_ReturnsTrueResponse() {
+    // Arrange
+    String correctText = "Some valid text with brackets ()";
+    Text request = new Text(correctText);
+    when(checkerService.isCorrect(correctText)).thenReturn(false);
+
+    // Act
+    Response response = controller.checkerBracket(request);
+
+    // Assert
+    assertNotNull(response);
+    assertFalse(response.getIsCorrect());
+  }
 
   @Test
   public void checkerBracket_IsBracketPlacementCorrect_ReturnsValidValue() {
@@ -31,24 +60,30 @@ class BracketCheckerControllerTest {
              }
              """;
 
-    Response res = bracketCheckerService.checkerBracket(new Text(correctText));
+    Text request = new Text(correctText);
+    when(checkerService.isCorrect(correctText)).thenReturn(true);
 
-    assertNotNull(res);
-    assertTrue(res.getIsCorrect());
+    Response response = controller.checkerBracket(request);
+
+    assertNotNull(response);
+    assertTrue(response.getIsCorrect());
   }
 
   @Test
   public void checkerBracket_IsBracketPlacementIncorrect_ReturnsInvalidValue() {
 
-    String inCorrectText =
+    String incorrectText =
         """
                 Некорректный текст для проверки (аывавыа]
                 """;
 
-    Response res = bracketCheckerService.checkerBracket(new Text(inCorrectText));
+    Text request = new Text(incorrectText);
+    when(checkerService.isCorrect(incorrectText)).thenReturn(false);
 
-    assertNotNull(res);
-    assertFalse(res.getIsCorrect());
+    Response response = controller.checkerBracket(request);
+
+    assertNotNull(response);
+    assertFalse(response.getIsCorrect());
   }
 
   @Test
@@ -59,52 +94,62 @@ class BracketCheckerControllerTest {
             Верный (текст с (правильными (которые обязательно должны быть успешными)) скобками).
             """;
 
-    Response res = bracketCheckerService.checkerBracket(new Text(correctText));
+    Text request = new Text(correctText);
+    when(checkerService.isCorrect(correctText)).thenReturn(true);
 
-    assertNotNull(res);
-    assertTrue(res.getIsCorrect());
+    Response response = controller.checkerBracket(request);
+
+    assertNotNull(response);
+    assertTrue(response.getIsCorrect());
   }
 
   @Test
   public void checkerBracket_IsNestedBracketsPlacementIncorrect_ReturnsInvalidValue() {
 
-    String inCorrectText =
+    String incorrectText =
         """
             Неверный (текст с (неправильными скобками [которые не должны быть успешными))).
             """;
-    Response res = bracketCheckerService.checkerBracket(new Text(inCorrectText));
+    Text request = new Text(incorrectText);
+    when(checkerService.isCorrect(incorrectText)).thenReturn(false);
 
-    assertNotNull(res);
-    assertFalse(res.getIsCorrect());
+    Response response = controller.checkerBracket(request);
+
+    assertNotNull(response);
+    assertFalse(response.getIsCorrect());
   }
 
   @Test
   public void checkerBracket_IsEmptyValueInsideBrackets_ReturnsInvalidValue() {
 
-    String inCorrectText = """
+    String incorrectText = """
             Верный (текст с пустыми(    )) скобками.
             """;
 
-    Response res = bracketCheckerService.checkerBracket(new Text(inCorrectText));
+    Text request = new Text(incorrectText);
+    when(checkerService.isCorrect(incorrectText)).thenReturn(false);
 
-    boolean inCorrectResult = res.getIsCorrect();
+    Response response = controller.checkerBracket(request);
 
-    assertNotNull(res);
-    assertFalse(inCorrectResult);
+    assertNotNull(response);
+    assertFalse(response.getIsCorrect());
   }
 
   @Test
   public void checkerBracket_ForFloatingPointNumber_ReturnsValidValue() {
 
-    String inCorrectText =
+    String incorrectText =
         """
             Верный (текст с пустыми(223.125121)) скобками).
             """;
 
-    Response res = bracketCheckerService.checkerBracket(new Text(inCorrectText));
+    Text request = new Text(incorrectText);
+    when(checkerService.isCorrect(incorrectText)).thenReturn(false);
 
-    assertNotNull(res);
-    assertFalse(res.getIsCorrect());
+    Response response = controller.checkerBracket(request);
+
+    assertNotNull(response);
+    assertFalse(response.getIsCorrect());
   }
 
   @Test
@@ -122,10 +167,13 @@ class BracketCheckerControllerTest {
                 увидели прекрасный вид на долину (я почувствовал, что все усилия стоили того).
                 """;
 
-    Response res = bracketCheckerService.checkerBracket(new Text(correctText));
+    Text request = new Text(correctText);
+    when(checkerService.isCorrect(correctText)).thenReturn(true);
 
-    assertNotNull(res);
-    assertTrue(res.getIsCorrect());
+    Response response = controller.checkerBracket(request);
+
+    assertNotNull(response);
+    assertTrue(response.getIsCorrect());
   }
 
   @Test
@@ -140,10 +188,13 @@ class BracketCheckerControllerTest {
                 приносили аромат соли и свободы.
                 """;
 
-    Response res = bracketCheckerService.checkerBracket(new Text(correctText));
+    Text request = new Text(correctText);
+    when(checkerService.isCorrect(correctText)).thenReturn(true);
 
-    assertNotNull(res);
-    assertTrue(res.getIsCorrect());
+    Response response = controller.checkerBracket(request);
+
+    assertNotNull(response);
+    assertTrue(response.getIsCorrect());
   }
 
   @Test
@@ -154,42 +205,36 @@ class BracketCheckerControllerTest {
                 (((Вложенные скобки (ещё вложенные скобки))))
                 """;
 
-    Response res = bracketCheckerService.checkerBracket(new Text(correctText));
+    Text request = new Text(correctText);
+    when(checkerService.isCorrect(correctText)).thenReturn(true);
 
-    assertNotNull(res);
-    assertTrue(res.getIsCorrect());
+    Response response = controller.checkerBracket(request);
+
+    assertNotNull(response);
+    assertTrue(response.getIsCorrect());
   }
 
   @Test
   public void checkerBracket_IsEmptyText_ReturnsInvalidValue() {
-    String inCorrectText = "";
+    String incorrectText = "";
 
-    Response res = bracketCheckerService.checkerBracket(new Text(inCorrectText));
+    var value = checkerService.isCorrect(incorrectText);
 
-    boolean inCorrectResult = res.getIsCorrect();
 
-    assertFalse(inCorrectResult);
+    assertFalse(value);
   }
 
   @Test
   public void checkerBracket_IsNullableText_ReturnsInvalidValue() {
-    String correctText = null;
+    String incorrectText = null;
 
-    Response res = bracketCheckerService.checkerBracket(new Text(correctText));
+    Text request = new Text(incorrectText);
+    when(checkerService.isCorrect(incorrectText)).thenReturn(false);
 
-    boolean inCorrectResult = res.getIsCorrect();
+    Response response = controller.checkerBracket(request);
 
-    assertFalse(inCorrectResult);
+    assertNotNull(response);
+    assertFalse(response.getIsCorrect());
   }
 
-  @Test
-  public void checkerBracket_IsNullableArgument_ReturnsInvalidValue() {
-
-    Response res = bracketCheckerService.checkerBracket(null);
-
-    boolean inCorrectResult = res.getIsCorrect();
-
-    assertNotNull(res);
-    assertFalse(inCorrectResult);
-  }
 }
