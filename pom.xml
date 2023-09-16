@@ -71,6 +71,16 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId><!-- Версию можно указать актуальную -->
+				<configuration>
+					<includes>
+						<include>**/*IT.java</include>
+						<include>**/*Test.java</include><!-- Поиск интеграционных тестов по имени файла -->
+					</includes>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
