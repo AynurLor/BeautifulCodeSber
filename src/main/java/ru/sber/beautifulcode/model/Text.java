@@ -12,10 +12,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class Text {
-  private String text;
+    private String text;
 
-  public boolean isEmpty() {
-    if (text == null) return false;
-    return text.isEmpty();
-  }
+    public boolean isEmpty() {
+        if (text == null) return false;
+        return text.isEmpty();
+    }
 }

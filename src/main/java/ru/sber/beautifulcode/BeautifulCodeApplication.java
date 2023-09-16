@@ -14,12 +14,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class BeautifulCodeApplication {
 
-  /**
-   * Метод main, который запускает приложение.
-   *
-   * @param args Аргументы командной строки.
-   */
-  public static void main(String[] args) {
-    SpringApplication.run(BeautifulCodeApplication.class, args);
-  }
+    /**
+     * Метод main, который запускает приложение.
+     *
+     * @param args Аргументы командной строки.
+     */
+    public static void main(String[] args) {
+        SpringApplication.run(BeautifulCodeApplication.class, args);
+    }
 }

@@ -13,46 +13,46 @@ import java.util.Deque;
  */
 @Service
 public class BracketCheckerService implements Validation<String> {
-  /**
-   * Проверяет корректность расстановки скобок в указанном текстовом контексте.
-   *
-   * @param context Текст, который будет проверен на корректность расстановки скобок.
-   * @return true, если расстановка скобок в контексте корректна, в противном случае - false.
-   */
-  @Override
-  public boolean isCorrect(String context) {
+    /**
+     * Проверяет корректность расстановки скобок в указанном текстовом контексте.
+     *
+     * @param context Текст, который будет проверен на корректность расстановки скобок.
+     * @return true, если расстановка скобок в контексте корректна, в противном случае - false.
+     */
+    @Override
+    public boolean isCorrect(String context) {
 
-    if (context == null || context.isEmpty()) {
-      return false;
-    }
-    Deque<Character> stack = new ArrayDeque<>();
-    int openBracketCount = 0, closeBracketCount = 0;
-
-    for (char c : context.toCharArray()) {
-
-      switch (c) {
-        case '(':
-          openBracketCount++;
-          stack.push(c);
-          break;
-
-        case ')':
-          closeBracketCount++;
-          if (stack.isEmpty() || stack.peek().equals('(')) {
+        if (context == null || context.isEmpty()) {
             return false;
-          }
-          char symbol = stack.pop();
-          while (symbol != '(' && stack.isEmpty()) {
-            symbol = stack.pop();
-          }
+        }
+        Deque<Character> stack = new ArrayDeque<>();
+        int openBracketCount = 0, closeBracketCount = 0;
 
-        default:
-          if (c > ' ') {
-            stack.push(c);
-          }
-          break;
-      }
+        for (char c : context.toCharArray()) {
+
+            switch (c) {
+                case '(':
+                    openBracketCount++;
+                    stack.push(c);
+                    break;
+
+                case ')':
+                    closeBracketCount++;
+                    if (stack.isEmpty() || stack.peek().equals('(')) {
+                        return false;
+                    }
+                    char symbol = stack.pop();
+                    while (symbol != '(' && stack.isEmpty()) {
+                        symbol = stack.pop();
+                    }
+
+                default:
+                    if (c > ' ') {
+                        stack.push(c);
+                    }
+                    break;
+            }
+        }
+        return openBracketCount == closeBracketCount;
     }
-    return openBracketCount == closeBracketCount;
-  }
 }

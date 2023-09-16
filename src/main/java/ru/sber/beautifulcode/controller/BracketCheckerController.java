@@ -14,27 +14,29 @@ import ru.sber.beautifulcode.service.BracketCheckerService;
 @RequestMapping("/api")
 public class BracketCheckerController {
 
-  /** Сервис для проверки расстановки скобок. */
-  private final BracketCheckerService checkerService;
+    /**
+     * Сервис для проверки расстановки скобок.
+     */
+    private final BracketCheckerService checkerService;
 
-  @Autowired
-  public BracketCheckerController(BracketCheckerService checkerService) {
-    this.checkerService = checkerService;
-  }
-
-  /**
-   * Обработчик HTTP-запроса POST /api/checkBrackets. Проверяет корректность расстановки скобок в
-   * тексте, переданном в теле запроса.
-   *
-   * @param request Текст для проверки расстановки скобок.
-   * @return Ответ о корректности расстановки скобок.
-   */
-  @PostMapping("/checkBrackets")
-  public @ResponseBody Response checkerBracket(@RequestBody Text request) {
-    if (request == null || request.isEmpty()) {
-      return new Response(false);
+    @Autowired
+    public BracketCheckerController(BracketCheckerService checkerService) {
+        this.checkerService = checkerService;
     }
-    var validation = checkerService.isCorrect(request.getText());
-    return new Response(validation);
-  }
+
+    /**
+     * Обработчик HTTP-запроса POST /api/checkBrackets. Проверяет корректность расстановки скобок в
+     * тексте, переданном в теле запроса.
+     *
+     * @param request Текст для проверки расстановки скобок.
+     * @return Ответ о корректности расстановки скобок.
+     */
+    @PostMapping("/checkBrackets")
+    public @ResponseBody Response checkerBracket(@RequestBody Text request) {
+        if (request == null || request.isEmpty()) {
+            return new Response(false);
+        }
+        var validation = checkerService.isCorrect(request.getText());
+        return new Response(validation);
+    }
 }

@@ -12,6 +12,8 @@ import lombok.Data;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Response {
-  /** Флаг, указывающий на корректность расстановки скобок. true - корректно false = некорректно */
-  private Boolean isCorrect;
+    /**
+     * Флаг, указывающий на корректность расстановки скобок. true - корректно false = некорректно
+     */
+    private Boolean isCorrect;
 }
