@@ -104,7 +104,7 @@ open index.html
 
 ## Автор
 
-- [Автор: Биктагиров Айнур](https://github.com/yourgithubusername)
+- [Автор: Биктагиров Айнур](@jerlenem)
 
 ## Версия
 
